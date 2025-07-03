@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WinZO Dice Game</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>🎲 WinZO Dice Game</h1>
+  <div id="game">
+    <p id="turn-indicator">Waiting for another player...</p>
+    <div id="dice">🎲</div>
+    <button id="roll-btn" disabled>Roll Dice</button>
+    <p id="score">Score: 0</p>
+    <div id="result-modal" style="display: none;">
+      <p id="result-message"></p>
+      <button onclick="resetGame()">Play Again</button>
+    </div>
+  </div>
+  <script src="https://unpkg.com/colyseus.js@^0.14.0/dist/colyseus.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

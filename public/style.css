@@ -1,0 +1,19 @@
+body {
+  font-family: Arial;
+  text-align: center;
+  background: #f0f0f0;
+}
+#game {
+  margin-top: 50px;
+}
+#dice {
+  font-size: 100px;
+  margin: 20px;
+}
+#roll-btn {
+  font-size: 20px;
+  padding: 10px 20px;
+}
+#result-modal {
+  margin-top: 30px;
+}
