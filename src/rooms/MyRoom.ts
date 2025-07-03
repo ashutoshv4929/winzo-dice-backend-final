@@ -35,8 +35,10 @@ export class MyRoom extends Room<MyRoomState> {
                 } else {
                     const ids = Array.from(this.state.players.keys());
                     const next = ids.find(id => id !== client.sessionId);
-                    // 'null' को खाली स्ट्रिंग '' से बदलें
-                    this.state.currentPlayerId = next || ""; // TS2322 fix: Assign empty string instead of null
+                    // === बदलाव यहाँ ===
+                    // पहले: this.state.currentPlayerId = next || null;
+                    this.state.currentPlayerId = next || ""; // `null` को `""` से बदला गया
+                    // === बदलाव समाप्त ===
 
                     const totalRolls = Array.from(this.state.players.values()).reduce((sum, p) => sum + p.history.length, 0);
                     this.state.currentRound = Math.floor(totalRolls / this.maxClients) + 1;
@@ -55,8 +57,10 @@ export class MyRoom extends Room<MyRoomState> {
 
         if (this.state.players.size === this.maxClients) {
             this.state.currentRound = 1;
-            // 'null' को खाली स्ट्रिंग '' से बदलें
-            this.state.currentPlayerId = Array.from(this.state.players.keys())[0] || ""; // TS2322 fix: Assign empty string instead of null
+            // === बदलाव यहाँ ===
+            // पहले: this.state.currentPlayerId = Array.from(this.state.players.keys())[0] || null;
+            this.state.currentPlayerId = Array.from(this.state.players.keys())[0] || ""; // `null` को `""` से बदला गया
+            // === बदलाव समाप्त ===
             this.broadcast("chat", { senderName: "Server", text: "Game Shuru!" });
         }
     }
@@ -73,29 +77,37 @@ export class MyRoom extends Room<MyRoomState> {
         } else if (p2.score > p1.score) {
             this.state.winnerSessionId = p2.sessionId;
         } else {
-            // 'null' को खाली स्ट्रिंग '' से बदलें
-            this.state.winnerSessionId = ""; // TS2322 fix: Assign empty string instead of null
+            // === बदलाव यहाँ ===
+            // पहले: this.state.winnerSessionId = null;
+            this.state.winnerSessionId = ""; // `null` को `""` से बदला गया
+            // === बदलाव समाप्त ===
         }
 
         this.broadcast("game_over", {
             finalScores: Object.fromEntries(this.state.finalScores),
-            winnerId: this.state.winnerSessionId, // यह अब खाली स्ट्रिंग हो सकता है
+            winnerId: this.state.winnerSessionId,
         });
     }
 
     resetGame() {
         this.state.gameOver = false;
-        // 'null' को खाली स्ट्रिंग '' से बदलें
-        this.state.winnerSessionId = ""; // TS2322 fix: Assign empty string instead of null
+        // === बदलाव यहाँ ===
+        // पहले: this.state.winnerSessionId = null;
+        this.state.winnerSessionId = ""; // `null` को `""` से बदला गया
+        // === बदलाव समाप्त ===
         this.state.currentRound = 1;
         this.state.finalScores.clear();
         this.state.players.forEach(p => {
             p.score = 0;
-            // 'clear()' मेथड को `length = 0` से बदलें
-            p.history.length = 0; // TS2339 fix: Use length = 0 to clear array
+            // === बदलाव यहाँ ===
+            // पहले: p.history.clear();
+            p.history.length = 0; // `clear()` को `length = 0` से बदला गया
+            // === बदलाव समाप्त ===
         });
-        // 'null' को खाली स्ट्रिंग '' से बदलें
-        this.state.currentPlayerId = Array.from(this.state.players.keys())[0] || ""; // TS2322 fix: Assign empty string instead of null
+        // === बदलाव यहाँ ===
+        // पहले: this.state.currentPlayerId = Array.from(this.state.players.keys())[0] || null;
+        this.state.currentPlayerId = Array.from(this.state.players.keys())[0] || ""; // `null` को `""` से बदला गया
+        // === बदलाव समाप्त ===
         this.broadcast("chat", { senderName: "Server", text: "Game reset ho gaya hai!" });
     }
 
